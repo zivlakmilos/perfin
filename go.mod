@@ -2,7 +2,11 @@ module github.com/zivlakmilos/perfin
 
 go 1.25.3
 
-require github.com/labstack/echo/v4 v4.14.0
+require (
+	github.com/jmoiron/sqlx v1.4.0
+	github.com/labstack/echo/v4 v4.14.0
+	github.com/mattn/go-sqlite3 v1.14.32
+)
 
 require (
 	github.com/labstack/gommon v0.4.2 // indirect
