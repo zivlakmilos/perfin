@@ -8,10 +8,10 @@ import (
 )
 
 type User struct {
-	Id       string
-	Username string
-	Password string
-	Role     string
+	Id       string `json:"id" xml:"id" form:"id" query:"id"`
+	Username string `json:"username" xml:"username" form:"username" query:"username"`
+	Password string `json:"password" xml:"password" form:"password" query:"password"`
+	Role     string `json:"role" xml:"role" form:"role" query:"role"`
 }
 
 type UserStore struct {

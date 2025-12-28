@@ -1,24 +1,22 @@
 package api
 
 import (
-	"net/http"
-
 	"github.com/labstack/echo/v4"
 )
 
 type Api struct {
-	e *echo.Echo
+	echo *echo.Echo
 }
 
 func NewApi(e *echo.Echo) *Api {
 	return &Api{
-		e: e,
+		echo: e,
 	}
 }
 
 func (a *Api) SetupRoutes() {
-	e := a.e
-	e.GET("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "Hello World!")
-	})
+	e := a.echo
+
+	auth := e.Group("/auth")
+	auth.POST("/login", a.Login)
 }
