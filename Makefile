@@ -5,7 +5,7 @@ build:
 
 .PHONY: dev
 dev:
-	@go run ./cmd/api/main.go
+	@air
 
 .PHONY: migrate
 migrate:
