@@ -24,7 +24,7 @@ func main() {
 	con := db.GetInstance()
 	defer con.Close()
 
-	con.MustExec(`CREATE TABLE IF NOT EXISTS User (
+	con.MustExec(`CREATE TABLE IF NOT EXISTS users (
   	id TEXT PRIMARY KEY,
   	username TEXT,
   	password TEXT,
@@ -37,7 +37,7 @@ func main() {
 }
 
 func createAdmin(con *sqlx.DB) {
-	rows, err := con.Query("SELECT COUNT(*) FROM User")
+	rows, err := con.Query("SELECT COUNT(*) FROM users")
 	if err != nil {
 		log.Fatal(err)
 	}

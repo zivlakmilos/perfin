@@ -31,7 +31,7 @@ func NewUserStore(con *sqlx.DB) *UserStore {
 func (s *UserStore) Login(username, password string) (*User, error) {
 	user := NewUser()
 
-	err := s.con.Get(user, "SELECT * FROM User WHERE username=?", username)
+	err := s.con.Get(user, "SELECT * FROM users WHERE username=?", username)
 	if err != nil {
 		return nil, err
 	}
@@ -44,7 +44,7 @@ func (s *UserStore) Login(username, password string) (*User, error) {
 }
 
 func (s *UserStore) ChangePassword(id, newPassword string) error {
-	_, err := s.con.Exec("UPDATE User SET password=? WHERE id=?", newPassword, id)
+	_, err := s.con.Exec("UPDATE users SET password=? WHERE id=?", newPassword, id)
 	if err != nil {
 		return err
 	}
@@ -57,7 +57,7 @@ func (s *UserStore) Insert(m *User) error {
 		m.Id = uuid.NewString()
 	}
 
-	_, err := s.con.NamedExec(`INSERT INTO User (
+	_, err := s.con.NamedExec(`INSERT INTO users (
 		id,
 		username,
 		password,
