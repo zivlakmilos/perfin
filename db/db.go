@@ -1,11 +1,31 @@
 package db
 
 import (
+	"strings"
+	"unicode"
+
 	"github.com/jmoiron/sqlx"
 	_ "github.com/mattn/go-sqlite3"
 )
 
 var dbInstance *sqlx.DB
+
+func init() {
+	sqlx.NameMapper = func(s string) string {
+		var result strings.Builder
+		for i, r := range s {
+			if unicode.IsUpper(r) {
+				if i > 0 {
+					result.WriteRune('_')
+				}
+				result.WriteRune(unicode.ToLower(r))
+			} else {
+				result.WriteRune(r)
+			}
+		}
+		return result.String()
+	}
+}
 
 func CreateConnection(url string) error {
 	if dbInstance == nil {
