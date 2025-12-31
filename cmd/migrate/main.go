@@ -33,7 +33,7 @@ func main() {
 
 	con.MustExec(`CREATE TABLE IF NOT EXISTS accounts (
 		id TEXT PRIMARY KEY,
-		account_type INTEGER,
+		account_type TEXT,
 		parent_id TEXT,
 		title TEXT
 	);`)

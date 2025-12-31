@@ -5,14 +5,14 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-type AccountType int
+type AccountType string
 
 const (
-	AccountTypeAsset AccountType = iota
-	AccountTypeLiability
-	AccountTypeIncome
-	AccountTypeExpense
-	AccountTypeEquity
+	AccountTypeAsset     AccountType = "asset"
+	AccountTypeLiability AccountType = "liability"
+	AccountTypeIncome    AccountType = "income"
+	AccountTypeExpense   AccountType = "expense"
+	AccountTypeEquity    AccountType = "equity"
 )
 
 type Account struct {
@@ -58,4 +58,10 @@ func (s *AccountStore) Insert(m *Account) error {
 	}
 
 	return nil
+}
+
+func (s *AccountStore) GetAll() ([]*Account, error) {
+	var res []*Account
+	err := s.con.Select(&res, "SELECT * FROM accounts")
+	return res, err
 }

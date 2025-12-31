@@ -19,4 +19,7 @@ func (a *Api) SetupRoutes() {
 
 	auth := e.Group("/auth")
 	auth.POST("/login", a.Login)
+
+	accounts := e.Group("/accounts", a.AuthMiddleware)
+	accounts.GET("", a.GetAccounts)
 }

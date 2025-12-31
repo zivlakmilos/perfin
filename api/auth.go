@@ -42,3 +42,26 @@ func (a *Api) Login(c echo.Context) error {
 		"token": tokenStr,
 	})
 }
+
+func (a *Api) AuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		auth := c.Request().Header.Get("Authorization")
+		if len(auth) < len("Bearer ") {
+			return c.JSON(http.StatusForbidden, map[string]string{
+				"error": "invalid token",
+			})
+		}
+
+		tokenStr := auth[len("Bearer "):]
+		_, err := jwt.ParseWithClaims(tokenStr, jwt.MapClaims{}, func(token *jwt.Token) (interface{}, error) {
+			return []byte(os.Getenv("JWT_SECRET")), nil
+		})
+		if err != nil {
+			return c.JSON(http.StatusForbidden, map[string]string{
+				"error": "invalid token",
+			})
+		}
+
+		return next(c)
+	}
+}
