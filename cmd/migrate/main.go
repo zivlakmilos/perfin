@@ -38,6 +38,16 @@ func main() {
 		title TEXT
 	);`)
 
+	con.MustExec(`CREATE TABLE IF NOT EXISTS transactions (
+		id TEXT PRIMARY KEY,
+		transaction_id TEXT,
+		account_id TEXT,
+		date TEXT,
+		description TEXT,
+		debit REAL,
+		credit REAL
+	);`)
+
 	if len(os.Args) == 1 || os.Args[1] != "test" {
 		createAdmin(con)
 		createAccounts(con)
