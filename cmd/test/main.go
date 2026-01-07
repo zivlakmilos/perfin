@@ -14,6 +14,8 @@ import (
 )
 
 func main() {
+	log.SetReportCaller(true)
+
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal(err)
