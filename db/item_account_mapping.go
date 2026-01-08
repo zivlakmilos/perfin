@@ -46,14 +46,23 @@ func (s *ItemAccountMappingStore) Insert(m *ItemAccountMapping) error {
 	return nil
 }
 
+func (s *ItemAccountMappingStore) Update(m *ItemAccountMapping) error {
+	_, err := s.con.NamedExec(`UPDATE item_account_mapping SET
+		item_name = :item_name,
+		account_id = :account_id
+		WHERE id = :id
+	`, m)
+	return err
+}
+
 func (s *ItemAccountMappingStore) GetAll() ([]*ItemAccountMapping, error) {
 	var res []*ItemAccountMapping
 	err := s.con.Select(&res, "SELECT * FROM item_account_mapping")
 	return res, err
 }
 
-func (s *ItemAccountMappingStore) GetByItemName(itemName string) ([]*ItemAccountMapping, error) {
-	var res []*ItemAccountMapping
-	err := s.con.Select(&res, "SELECT * FROM item_account_mapping WHERE item_name = ?", itemName)
-	return res, err
+func (s *ItemAccountMappingStore) GetByItemName(itemName string) (*ItemAccountMapping, error) {
+	var res ItemAccountMapping
+	err := s.con.Get(&res, "SELECT * FROM item_account_mapping WHERE item_name = ? LIMIT 1", itemName)
+	return &res, err
 }

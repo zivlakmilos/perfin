@@ -51,7 +51,7 @@ func main() {
 	con.MustExec(`CREATE TABLE IF NOT EXISTS item_account_mapping (
 		id TEXT PRIMARY KEY,
 		item_name TEXT,
-		account_id TEXT,
+		account_id TEXT
 	);`)
 
 	con.MustExec(`CREATE TABLE IF NOT EXISTS received_receipts (
@@ -68,7 +68,7 @@ func main() {
 		receipt_id TEXT,
 		name TEXT,
 		quantity REAL,
-		amount REAL,
+		amount REAL
 	);`)
 
 	if len(os.Args) == 1 || os.Args[1] != "test" {

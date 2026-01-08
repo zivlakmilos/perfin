@@ -14,6 +14,12 @@ func NewApi(e *echo.Echo) *Api {
 	}
 }
 
+func (a *Api) ReturnError(c echo.Context, code int, msg string) error {
+	return c.JSON(code, map[string]any{
+		"error": msg,
+	})
+}
+
 func (a *Api) SetupRoutes() {
 	e := a.echo
 
@@ -22,4 +28,8 @@ func (a *Api) SetupRoutes() {
 
 	accounts := e.Group("/accounts", a.AuthMiddleware)
 	accounts.GET("", a.GetAccounts)
+
+	mappings := e.Group("/mappings", a.AuthMiddleware)
+	mappings.GET("/items", a.GetItemMappings)
+	mappings.POST("/items", a.CreateItemMapping)
 }
