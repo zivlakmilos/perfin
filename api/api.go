@@ -3,15 +3,18 @@ package api
 import (
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"github.com/zivlakmilos/perfin/db"
 )
 
 type Api struct {
-	echo *echo.Echo
+	echo   *echo.Echo
+	config map[string]string
 }
 
 func NewApi(e *echo.Echo) *Api {
 	return &Api{
-		echo: e,
+		echo:   e,
+		config: map[string]string{},
 	}
 }
 
@@ -19,6 +22,11 @@ func (a *Api) ReturnError(c echo.Context, code int, msg string) error {
 	return c.JSON(code, map[string]any{
 		"error": msg,
 	})
+}
+
+func (a *Api) LoadConfig() {
+	store := db.NewConfigStore(db.GetInstance())
+	a.config = store.GetConfig()
 }
 
 func (a *Api) SetupRoutes() {
@@ -30,6 +38,11 @@ func (a *Api) SetupRoutes() {
 
 	auth := e.Group("/auth")
 	auth.POST("/login", a.Login)
+
+	config := e.Group("/config", a.AuthMiddleware)
+	config.GET("", a.GetConfig)
+	config.POST("", a.ReplaceConfig)
+	config.PUT("", a.UpdateConfig)
 
 	accounts := e.Group("/accounts", a.AuthMiddleware)
 	accounts.GET("", a.GetAccounts)

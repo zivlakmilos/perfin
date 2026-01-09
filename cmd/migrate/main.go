@@ -24,6 +24,11 @@ func main() {
 	con := db.GetInstance()
 	defer func() { _ = con.Close() }()
 
+	con.MustExec(`CREATE TABLE IF NOT EXISTS config (
+  	key TEXT PRIMARY KEY,
+  	value TEXT
+	);`)
+
 	con.MustExec(`CREATE TABLE IF NOT EXISTS users (
   	id TEXT PRIMARY KEY,
   	username TEXT,

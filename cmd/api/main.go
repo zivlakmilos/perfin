@@ -19,6 +19,7 @@ func main() {
 	db.CreateConnection(os.Getenv("DB_URL"))
 
 	a := api.NewApi(e)
+	a.LoadConfig()
 	a.SetupRoutes()
 
 	e.Logger.Fatal(e.Start(":9999"))
