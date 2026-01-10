@@ -21,10 +21,7 @@ func (a *Api) Login(c echo.Context) error {
 	store := db.NewUserStore(db.GetInstance())
 	user, err = store.Login(user.Username, user.Password)
 	if err != nil {
-		c.JSON(http.StatusForbidden, map[string]string{
-			"error": "wrong username or password",
-		})
-		return err
+		return a.ReturnError(c, http.StatusForbidden, "wrong username or password")
 	}
 	user.Password = ""
 
@@ -47,9 +44,7 @@ func (a *Api) AuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		auth := c.Request().Header.Get("Authorization")
 		if len(auth) < len("Bearer ") {
-			return c.JSON(http.StatusForbidden, map[string]string{
-				"error": "invalid token",
-			})
+			return a.ReturnError(c, http.StatusForbidden, "invalid token")
 		}
 
 		tokenStr := auth[len("Bearer "):]
@@ -57,9 +52,7 @@ func (a *Api) AuthMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 			return []byte(os.Getenv("JWT_SECRET")), nil
 		})
 		if err != nil {
-			return c.JSON(http.StatusForbidden, map[string]string{
-				"error": "invalid token",
-			})
+			return a.ReturnError(c, http.StatusForbidden, "invalid token")
 		}
 
 		return next(c)

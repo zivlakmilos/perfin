@@ -64,6 +64,7 @@ func main() {
 		tax_id TEXT,
 		business_name TEXT,
 		date TEXT,
+		payment_account_id TEXT,
 		total_amount REAL,
 		url TEXT
 	);`)
@@ -72,8 +73,10 @@ func main() {
 		id TEXT PRIMARY KEY,
 		receipt_id TEXT,
 		name TEXT,
+		price REAL,
 		quantity REAL,
-		amount REAL
+		amount REAL,
+		account_id TEXT
 	);`)
 
 	if len(os.Args) == 1 || os.Args[1] != "test" {

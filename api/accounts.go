@@ -12,7 +12,7 @@ func (a *Api) GetAccounts(c echo.Context) error {
 
 	accounts, err := store.GetAll()
 	if err != nil {
-		return err
+		return a.ReturnError(c, http.StatusInternalServerError, "retreiving account failed")
 	}
 
 	var res []*db.Account
