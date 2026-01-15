@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"net/http"
 
+	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"github.com/zivlakmilos/perfin/db"
 	"github.com/zivlakmilos/perfin/utils"
@@ -63,8 +64,8 @@ func (a *Api) GetFiscalReceipt(c echo.Context) error {
 }
 
 func (a *Api) CreateFiscalReceipt(c echo.Context) error {
-	var req db.ReceivedReceipt
-	err := c.Bind(&req)
+	var receipt db.ReceivedReceipt
+	err := c.Bind(&receipt)
 	if err != nil {
 		return a.ReturnError(c, http.StatusInternalServerError, "request parsing failed")
 	}
@@ -75,13 +76,60 @@ func (a *Api) CreateFiscalReceipt(c echo.Context) error {
 	}
 	defer func() { _ = tx.Rollback() }()
 
-	store := db.NewReceivedReceiptStore(db.GetInstance())
-	err = store.Insert(&req)
+	receiptStore := db.NewReceivedReceiptStore(db.GetInstance())
+	err = receiptStore.Insert(&receipt)
 	if err != nil {
 		return a.ReturnError(c, http.StatusInternalServerError, "error saving receipt")
 	}
 
-	// TODO: create transaction based on receipt
+	txId := uuid.NewString()
+
+	transactionStore := db.NewTransactionStore(db.GetInstance())
+	transactionStore.UseTransaction(tx)
+
+	debit := make(map[string]float64)
+
+	for _, item := range receipt.Items {
+		debit[item.Account] += item.Amount
+	}
+
+	totalAmout := float64(0)
+	for key, val := range debit {
+		transaction := db.Transaction{
+			Id:                "",
+			TransactionId:     txId,
+			AccountId:         key,
+			Date:              receipt.Date,
+			Description:       "fiscal receipt",
+			Debit:             val,
+			Credit:            0,
+			ReceivedReceiptId: receipt.Id,
+		}
+		totalAmout += val
+		err := transactionStore.Insert(&transaction)
+		if err != nil {
+			return a.ReturnError(c, http.StatusInternalServerError, "error saving transaction")
+		}
+	}
+
+	if !utils.ComareFloat4(receipt.TotalAmount, totalAmout) {
+		return a.ReturnError(c, http.StatusInternalServerError, "receipt total and item value missmatch")
+	}
+
+	transaction := db.Transaction{
+		Id:                "",
+		TransactionId:     txId,
+		AccountId:         "",
+		Date:              receipt.Date,
+		Description:       "fiscal receipt",
+		Debit:             0,
+		Credit:            receipt.TotalAmount,
+		ReceivedReceiptId: receipt.Id,
+	}
+	err = transactionStore.Insert(&transaction)
+	if err != nil {
+		return a.ReturnError(c, http.StatusInternalServerError, "error saving transaction")
+	}
 
 	err = tx.Commit()
 	if err != nil {
@@ -89,6 +137,6 @@ func (a *Api) CreateFiscalReceipt(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusCreated, map[string]any{
-		"receipt": req,
+		"receipt": receipt,
 	})
 }

@@ -1,18 +1,20 @@
 package db
 
 import (
+	"time"
+
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
 )
 
 type ReceivedReceipt struct {
-	Id             string  `db:"id" json:"id"`
-	TaxId          string  `db:"tax_id" json:"taxId"`
-	BusinessName   string  `db:"business_name" json:"businessName"`
-	Date           string  `db:"date" json:"date"`
-	TotalAmount    float64 `db:"total_amount" json:"totalAmount"`
-	PaymentAccount string  `db:"payment_account_id" json:"paymentAccount"`
-	Url            string  `db:"url" json:"url"`
+	Id             string    `db:"id" json:"id"`
+	TaxId          string    `db:"tax_id" json:"taxId"`
+	BusinessName   string    `db:"business_name" json:"businessName"`
+	Date           time.Time `db:"date" json:"date"`
+	TotalAmount    float64   `db:"total_amount" json:"totalAmount"`
+	PaymentAccount string    `db:"payment_account_id" json:"paymentAccount"`
+	Url            string    `db:"url" json:"url"`
 	Items          []*ReceivedReceiptItem
 }
 
