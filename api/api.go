@@ -45,7 +45,10 @@ func (a *Api) SetupRoutes() {
 	config.PUT("", a.UpdateConfig)
 
 	accounts := e.Group("/accounts", a.AuthMiddleware)
+	accounts.GET("/:id", a.GetAccount)
+	accounts.PUT("/:id", a.UpdateAccount)
 	accounts.GET("", a.GetAccounts)
+	accounts.POST("", a.CreateAccount)
 
 	mappings := e.Group("/mappings", a.AuthMiddleware)
 	mappings.GET("/items", a.GetItemMappings)

@@ -60,8 +60,31 @@ func (s *AccountStore) Insert(m *Account) error {
 	return nil
 }
 
+func (s *AccountStore) Update(m *Account) error {
+	if m.Id == "" {
+		m.Id = uuid.NewString()
+	}
+
+	_, err := s.con.NamedExec(`UPDATE accounts SET
+		account_type=:account_type,
+		parent_id=:parent_id,
+		title=:title
+	WHERE id=:id`, m)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (s *AccountStore) GetAll() ([]*Account, error) {
 	var res []*Account
 	err := s.con.Select(&res, "SELECT * FROM accounts")
 	return res, err
+}
+
+func (s *AccountStore) Get(id string) (*Account, error) {
+	var res Account
+	err := s.con.Get(&res, "SELECT * FROM accounts")
+	return &res, err
 }

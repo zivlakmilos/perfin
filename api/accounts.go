@@ -1,6 +1,7 @@
 package api
 
 import (
+	"database/sql"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -29,5 +30,66 @@ func (a *Api) GetAccounts(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, map[string]any{
 		"accounts": res,
+	})
+}
+
+func (a *Api) GetAccount(c echo.Context) error {
+	store := db.NewAccountStore(db.GetInstance())
+
+	account, err := store.Get(c.Param("id"))
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return a.ReturnError(c, http.StatusNotFound, "account not found")
+		}
+		return a.ReturnError(c, http.StatusInternalServerError, "retreiving account failed")
+	}
+
+	return c.JSON(http.StatusOK, map[string]any{
+		"account": account,
+	})
+}
+
+func (a *Api) CreateAccount(c echo.Context) error {
+	var account db.Account
+	err := c.Bind(&account)
+	if err != nil {
+		return a.ReturnError(c, http.StatusInternalServerError, "request parsing failed")
+	}
+
+	store := db.NewAccountStore(db.GetInstance())
+
+	err = store.Insert(&account)
+	if err != nil {
+		return a.ReturnError(c, http.StatusInternalServerError, "creating account failed")
+	}
+
+	return c.JSON(http.StatusCreated, map[string]any{
+		"account": account,
+	})
+}
+
+func (a *Api) UpdateAccount(c echo.Context) error {
+	var account db.Account
+	err := c.Bind(&account)
+	if err != nil {
+		return a.ReturnError(c, http.StatusInternalServerError, "request parsing failed")
+	}
+
+	if account.Id != c.Param("id") {
+		return a.ReturnError(c, http.StatusInternalServerError, "account id missmatch")
+	}
+
+	store := db.NewAccountStore(db.GetInstance())
+
+	err = store.Update(&account)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return a.ReturnError(c, http.StatusNotFound, "account not found")
+		}
+		return a.ReturnError(c, http.StatusInternalServerError, "updateing account failed")
+	}
+
+	return c.JSON(http.StatusOK, map[string]any{
+		"account": account,
 	})
 }
