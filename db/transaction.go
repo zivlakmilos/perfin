@@ -82,3 +82,9 @@ func (s *TransactionStore) GetAll() ([]*Transaction, error) {
 	err := s.con.Select(&res, "SELECT * FROM transactions")
 	return res, err
 }
+
+func (s *TransactionStore) Get(txId string) ([]*Transaction, error) {
+	var res []*Transaction
+	err := s.con.Select(&res, "SELECT * FROM transactions WHERE transaction_id=?", txId)
+	return res, err
+}

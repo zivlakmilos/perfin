@@ -47,7 +47,7 @@ func main() {
 		id TEXT PRIMARY KEY,
 		transaction_id TEXT,
 		account_id TEXT,
-		date TEXT,
+		date DATETIME,
 		description TEXT,
 		debit REAL,
 		credit REAL,
@@ -64,7 +64,7 @@ func main() {
 		id TEXT PRIMARY KEY,
 		tax_id TEXT,
 		business_name TEXT,
-		date TEXT,
+		date DATETIME,
 		payment_account_id TEXT,
 		total_amount REAL,
 		url TEXT

@@ -56,4 +56,8 @@ func (a *Api) SetupRoutes() {
 	fiscalReceipts.GET("/:id", a.GetFiscalReceipt)
 	fiscalReceipts.GET("", a.GetFiscalReceipts)
 	fiscalReceipts.POST("", a.CreateFiscalReceipt)
+
+	transactions := e.Group("/transactions", a.AuthMiddleware)
+	transactions.GET("/:id", a.GetTransaction)
+	transactions.GET("", a.GetTransactions)
 }
