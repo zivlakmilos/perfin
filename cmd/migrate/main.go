@@ -50,7 +50,8 @@ func main() {
 		date TEXT,
 		description TEXT,
 		debit REAL,
-		credit REAL
+		credit REAL,
+		received_receipt_id TEXT
 	);`)
 
 	con.MustExec(`CREATE TABLE IF NOT EXISTS item_account_mapping (

@@ -47,3 +47,7 @@ func GetInstance() *sqlx.DB {
 func Open(url string) (*sqlx.DB, error) {
 	return sqlx.Open("sqlite3", url)
 }
+
+func StartTransaction(con *sqlx.DB) (*sqlx.Tx, error) {
+	return con.Beginx()
+}

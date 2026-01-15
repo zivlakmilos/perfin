@@ -69,6 +69,12 @@ func (a *Api) CreateFiscalReceipt(c echo.Context) error {
 		return a.ReturnError(c, http.StatusInternalServerError, "request parsing failed")
 	}
 
+	tx, err := db.StartTransaction(db.GetInstance())
+	if err != nil {
+		return a.ReturnError(c, http.StatusInternalServerError, "internal server error")
+	}
+	defer func() { _ = tx.Rollback() }()
+
 	store := db.NewReceivedReceiptStore(db.GetInstance())
 	err = store.Insert(&req)
 	if err != nil {
@@ -76,6 +82,11 @@ func (a *Api) CreateFiscalReceipt(c echo.Context) error {
 	}
 
 	// TODO: create transaction based on receipt
+
+	err = tx.Commit()
+	if err != nil {
+		return a.ReturnError(c, http.StatusInternalServerError, "error saving data")
+	}
 
 	return c.JSON(http.StatusCreated, map[string]any{
 		"receipt": req,

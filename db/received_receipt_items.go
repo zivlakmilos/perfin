@@ -17,17 +17,24 @@ type ReceivedReceiptItem struct {
 
 type ReceivedReceiptItemStore struct {
 	con *sqlx.DB
+	tx  *sqlx.Tx
 }
 
 func NewReceivedReceiptItemStore(con *sqlx.DB) *ReceivedReceiptItemStore {
-	return &ReceivedReceiptItemStore{con: con}
+	return &ReceivedReceiptItemStore{
+		con: con,
+	}
+}
+
+func (s *ReceivedReceiptItemStore) UseTransaction(tx *sqlx.Tx) {
+	s.tx = tx
 }
 
 func (s *ReceivedReceiptItemStore) Insert(item *ReceivedReceiptItem) error {
 	if item.Id == "" {
 		item.Id = uuid.NewString()
 	}
-	_, err := s.con.NamedExec(`INSERT INTO received_receipt_items (
+	query := `INSERT INTO received_receipt_items (
 		id,
 		receipt_id,
 		name,
@@ -43,32 +50,21 @@ func (s *ReceivedReceiptItemStore) Insert(item *ReceivedReceiptItem) error {
 		:quantity,
 		:amount,
 		:account_id
-	)`, item)
-	return err
-}
+	)`
 
-func (s *ReceivedReceiptItemStore) InsertWithTx(tx *sqlx.Tx, m *ReceivedReceiptItem) error {
-	if m.Id == "" {
-		m.Id = uuid.NewString()
+	if s.tx != nil {
+		_, err := s.tx.NamedExec(query, item)
+		if err != nil {
+			return err
+		}
+	} else {
+		_, err := s.con.NamedExec(query, item)
+		if err != nil {
+			return err
+		}
 	}
-	_, err := tx.NamedExec(`INSERT INTO received_receipt_items (
-		id,
-		receipt_id,
-		name,
-		price,
-		quantity,
-		amount,
-		account_id
-	) VALUES (
-		:id,
-		:receipt_id,
-		:name,
-		:price,
-		:quantity,
-		:amount,
-		:account_id
-	)`, m)
-	return err
+
+	return nil
 }
 
 func (s *ReceivedReceiptItemStore) GetAll() ([]*ReceivedReceiptItem, error) {

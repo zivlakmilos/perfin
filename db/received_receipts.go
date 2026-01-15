@@ -18,10 +18,17 @@ type ReceivedReceipt struct {
 
 type ReceivedReceiptStore struct {
 	con *sqlx.DB
+	tx  *sqlx.Tx
 }
 
 func NewReceivedReceiptStore(con *sqlx.DB) *ReceivedReceiptStore {
-	return &ReceivedReceiptStore{con: con}
+	return &ReceivedReceiptStore{
+		con: con,
+	}
+}
+
+func (s *ReceivedReceiptStore) UseTransaction(tx *sqlx.Tx) {
+	s.tx = tx
 }
 
 func (s *ReceivedReceiptStore) Insert(m *ReceivedReceipt) error {
@@ -29,13 +36,7 @@ func (s *ReceivedReceiptStore) Insert(m *ReceivedReceipt) error {
 		m.Id = uuid.NewString()
 	}
 
-	tx, err := s.con.Beginx()
-	if err != nil {
-		return err
-	}
-	defer func() { _ = tx.Rollback() }()
-
-	_, err = tx.NamedExec(`INSERT INTO received_receipts (
+	query := `INSERT INTO received_receipts (
 		id,
 		tax_id,
 		business_name,
@@ -51,23 +52,28 @@ func (s *ReceivedReceiptStore) Insert(m *ReceivedReceipt) error {
 		:total_amount,
 		:payment_account_id,
 		:url
-	)`, m)
-	if err != nil {
-		return err
-	}
+	)`
 
-	itemsStore := NewReceivedReceiptItemStore(s.con)
-	for i := range m.Items {
-		m.Items[i].ReceiptId = m.Id
-		err := itemsStore.InsertWithTx(tx, m.Items[i])
+	if s.tx != nil {
+		_, err := s.tx.NamedExec(query, m)
+		if err != nil {
+			return err
+		}
+	} else {
+		_, err := s.con.NamedExec(query, m)
 		if err != nil {
 			return err
 		}
 	}
 
-	err = tx.Commit()
-	if err != nil {
-		return err
+	itemsStore := NewReceivedReceiptItemStore(s.con)
+	itemsStore.UseTransaction(s.tx)
+	for i := range m.Items {
+		m.Items[i].ReceiptId = m.Id
+		err := itemsStore.Insert(m.Items[i])
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil
