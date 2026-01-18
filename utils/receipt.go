@@ -43,10 +43,10 @@ type FiscalReceiptInfo struct {
 }
 
 type FiscalReceiptItem struct {
-	Title    string
-	Price    float64
-	Quantity float64
-	Amount   float64
+	Title    string  `json:"title"`
+	Price    float64 `json:"price"`
+	Quantity float64 `json:"quantity"`
+	Amount   float64 `json:"amount"`
 }
 
 func GetFiscalReceiptInfo(url string) (*FiscalReceiptInfo, error) {
