@@ -1,0 +1,399 @@
+{
+  "accounts": [
+    {
+      "id": "",
+      "accountType": "equity",
+      "parentId": "",
+      "title": "Početno stanje",
+      "childrens": null
+    },
+    {
+      "id": "",
+      "accountType": "asset",
+      "parentId": "",
+      "title": "Novac",
+      "childrens": [
+        {
+          "id": "",
+          "accountType": "asset",
+          "parentId": "",
+          "title": "Tekući račun",
+          "childrens": null
+        },
+        {
+          "id": "",
+          "accountType": "asset",
+          "parentId": "",
+          "title": "Tekući račun - Raiffeisen",
+          "childrens": null
+        },
+        {
+          "id": "",
+          "accountType": "asset",
+          "parentId": "",
+          "title": "Tekući račun - Poštanska štedionica",
+          "childrens": null
+        },
+        {
+          "id": "",
+          "accountType": "asset",
+          "parentId": "",
+          "title": "Devizni račun EUR",
+          "childrens": null
+        },
+        {
+          "id": "",
+          "accountType": "asset",
+          "parentId": "",
+          "title": "Devizni račun USD",
+          "childrens": null
+        },
+        {
+          "id": "",
+          "accountType": "asset",
+          "parentId": "",
+          "title": "Novčanik",
+          "childrens": null
+        },
+        {
+          "id": "",
+          "accountType": "asset",
+          "parentId": "",
+          "title": "Novčanik EUR",
+          "childrens": null
+        },
+        {
+          "id": "",
+          "accountType": "asset",
+          "parentId": "",
+          "title": "Novčanik USD",
+          "childrens": null
+        }
+      ]
+    },
+    {
+      "id": "",
+      "accountType": "asset",
+      "parentId": "",
+      "title": "Pozajmice",
+      "childrens": [
+        {
+          "id": "",
+          "accountType": "asset",
+          "parentId": "",
+          "title": "Kućni budžet",
+          "childrens": null
+        },
+        {
+          "id": "",
+          "accountType": "asset",
+          "parentId": "",
+          "title": "Milica Zivlak",
+          "childrens": null
+        },
+        {
+          "id": "",
+          "accountType": "asset",
+          "parentId": "",
+          "title": "Dušan Dragović",
+          "childrens": null
+        }
+      ]
+    },
+    {
+      "id": "",
+      "accountType": "Obaveze",
+      "parentId": "",
+      "title": "Loan",
+      "childrens": [
+        {
+          "id": "",
+          "accountType": "liability",
+          "parentId": "",
+          "title": "Pozajmice",
+          "childrens": [
+            {
+              "id": "",
+              "accountType": "liability",
+              "parentId": "",
+              "title": "Kućni budžet",
+              "childrens": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "",
+      "accountType": "income",
+      "parentId": "",
+      "title": "Heksagon",
+      "childrens": [
+        {
+          "id": "",
+          "accountType": "income",
+          "parentId": "",
+          "title": "Plata",
+          "childrens": null
+        },
+        {
+          "id": "",
+          "accountType": "income",
+          "parentId": "",
+          "title": "Bonus",
+          "childrens": null
+        },
+        {
+          "id": "",
+          "accountType": "income",
+          "parentId": "",
+          "title": "Službeni put",
+          "childrens": null
+        }
+      ]
+    },
+    {
+      "id": "",
+      "accountType": "income",
+      "parentId": "",
+      "title": "Lyra IT",
+      "childrens": null
+    },
+    {
+      "id": "",
+      "accountType": "income",
+      "parentId": "",
+      "title": "Tehne Studio",
+      "childrens": null
+    },
+    {
+      "id": "",
+      "accountType": "income",
+      "parentId": "",
+      "title": "Freelance",
+      "childrens": null
+    },
+    {
+      "id": "",
+      "accountType": "income",
+      "parentId": "",
+      "title": "Ostalo",
+      "childrens": null
+    },
+    {
+      "id": "",
+      "accountType": "income",
+      "parentId": "",
+      "title": "Kursne razlike",
+      "childrens": null
+    },
+    {
+      "id": "",
+      "accountType": "income",
+      "parentId": "",
+      "title": "Višak",
+      "childrens": null
+    },
+    {
+      "id": "",
+      "accountType": "expense",
+      "parentId": "",
+      "title": "Banka",
+      "childrens": null
+    },
+    {
+      "id": "",
+      "accountType": "expense",
+      "parentId": "",
+      "title": "Heksagon",
+      "childrens": [
+        {
+          "id": "",
+          "accountType": "expense",
+          "parentId": "",
+          "title": "Službeni put",
+          "childrens": null
+        }
+      ]
+    },
+    {
+      "id": "",
+      "accountType": "expense",
+      "parentId": "",
+      "title": "Kućni budžet",
+      "childrens": null
+    },
+    {
+      "id": "",
+      "accountType": "expense",
+      "parentId": "",
+      "title": "Milica Zivlak",
+      "childrens": null
+    },
+    {
+      "id": "",
+      "accountType": "expense",
+      "parentId": "",
+      "title": "Letenje",
+      "childrens": null
+    },
+    {
+      "id": "",
+      "accountType": "expense",
+      "parentId": "",
+      "title": "Porez",
+      "childrens": null
+    },
+    {
+      "id": "",
+      "accountType": "expense",
+      "parentId": "",
+      "title": "Prevoz",
+      "childrens": [
+        {
+          "id": "",
+          "accountType": "expense",
+          "parentId": "",
+          "title": "Autobus",
+          "childrens": null
+        },
+        {
+          "id": "",
+          "accountType": "expense",
+          "parentId": "",
+          "title": "Taksi",
+          "childrens": null
+        },
+        {
+          "id": "",
+          "accountType": "expense",
+          "parentId": "",
+          "title": "Voz",
+          "childrens": null
+        },
+        {
+          "id": "",
+          "accountType": "expense",
+          "parentId": "",
+          "title": "Ostalo",
+          "childrens": null
+        }
+      ]
+    },
+    {
+      "id": "",
+      "accountType": "expense",
+      "parentId": "",
+      "title": "Hrana",
+      "childrens": null
+    },
+    {
+      "id": "",
+      "accountType": "expense",
+      "parentId": "",
+      "title": "Slatkiši",
+      "childrens": null
+    },
+    {
+      "id": "",
+      "accountType": "expense",
+      "parentId": "",
+      "title": "Telefon",
+      "childrens": null
+    },
+    {
+      "id": "",
+      "accountType": "expense",
+      "parentId": "",
+      "title": "Tehnika",
+      "childrens": null
+    },
+    {
+      "id": "",
+      "accountType": "expense",
+      "parentId": "",
+      "title": "Pretplate",
+      "childrens": [
+        {
+          "id": "",
+          "accountType": "expense",
+          "parentId": "",
+          "title": "Spotify",
+          "childrens": null
+        }
+      ]
+    },
+    {
+      "id": "",
+      "accountType": "expense",
+      "parentId": "",
+      "title": "Zabava",
+      "childrens": [
+        {
+          "id": "",
+          "accountType": "expense",
+          "parentId": "",
+          "title": "Izlasci",
+          "childrens": null
+        },
+        {
+          "id": "",
+          "accountType": "expense",
+          "parentId": "",
+          "title": "Putovanja",
+          "childrens": null
+        },
+        {
+          "id": "",
+          "accountType": "expense",
+          "parentId": "",
+          "title": "Rekreacija",
+          "childrens": null
+        },
+        {
+          "id": "",
+          "accountType": "expense",
+          "parentId": "",
+          "title": "Žurke",
+          "childrens": null
+        }
+      ]
+    },
+    {
+      "id": "",
+      "accountType": "expense",
+      "parentId": "",
+      "title": "Obrazovanje",
+      "childrens": [
+        {
+          "id": "",
+          "accountType": "expense",
+          "parentId": "",
+          "title": "Knjige",
+          "childrens": null
+        }
+      ]
+    },
+    {
+      "id": "",
+      "accountType": "expense",
+      "parentId": "",
+      "title": "Pokloni",
+      "childrens": null
+    },
+    {
+      "id": "",
+      "accountType": "expense",
+      "parentId": "",
+      "title": "Kursne razlike",
+      "childrens": null
+    },
+    {
+      "id": "",
+      "accountType": "expense",
+      "parentId": "",
+      "title": "Manjak",
+      "childrens": null
+    }
+  ]
+}
