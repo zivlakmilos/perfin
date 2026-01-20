@@ -1,10 +1,15 @@
-import { createSignal, type Component } from 'solid-js';
+import { type Component } from 'solid-js';
 import QrScanner from './components/QrScanner';
 import { useNavigate } from '@solidjs/router';
+import { loadToken, token } from './utils/token';
 
 const Scanner: Component = () => {
   const navigate = useNavigate();
 
+  loadToken();
+  if (!token()) {
+    navigate("/auth/login", { replace: true });
+  }
   const onScanSuccess = (txt: string) => {
     navigate(`/receipt/add?value=${encodeURIComponent(txt)}`, {
       replace: true,

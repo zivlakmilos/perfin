@@ -1,4 +1,4 @@
-import { Html5QrcodeScanner, QrcodeErrorCallback, QrcodeSuccessCallback } from 'html5-qrcode';
+import { Html5QrcodeScanner, Html5QrcodeScanType, QrcodeErrorCallback, QrcodeSuccessCallback } from 'html5-qrcode';
 import { Html5QrcodeScannerConfig } from 'html5-qrcode/esm/html5-qrcode-scanner';
 import { onCleanup, onMount, type Component } from 'solid-js';
 
@@ -18,6 +18,8 @@ const createConfig = (props: TQtScannerProps) => {
   const config: Html5QrcodeScannerConfig = {
     fps: 0,
     showTorchButtonIfSupported: true,
+    rememberLastUsedCamera: true,
+    supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA],
   };
   if (props.fps) {
     config.fps = props.fps;

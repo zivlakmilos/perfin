@@ -1,8 +1,14 @@
 import { useNavigate } from '@solidjs/router';
 import type { Component } from 'solid-js';
+import { loadToken, token } from './utils/token';
 
 const Home: Component = () => {
   const navigate = useNavigate();
+
+  loadToken();
+  if (!token()) {
+    navigate("/auth/login", { replace: true });
+  }
 
   return (
     <div class="flex items-center justify-center h-screen">
