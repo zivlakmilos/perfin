@@ -13,10 +13,6 @@ const (
 	successColor   = (lipgloss.Color("#00FF00"))
 )
 
-const (
-	baseUrl = "http://localhost:9999"
-)
-
-func getUrl(endpoint string) string {
-	return fmt.Sprintf("%s%s", baseUrl, endpoint)
+func getUrl(base, endpoint string) string {
+	return fmt.Sprintf("%s%s", base, endpoint)
 }

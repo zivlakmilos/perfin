@@ -191,7 +191,7 @@ func handleLogin() tea.Cmd {
 				message: err.Error(),
 			}
 		}
-		res, err := http.Post(getUrl("/auth/login"), "application/json", bytes.NewReader(body))
+		res, err := http.Post(getUrl(config.ApiBaseUrl, "/auth/login"), "application/json", bytes.NewReader(body))
 		if err != nil {
 			return loginStatus{
 				code:    -1,
@@ -239,9 +239,19 @@ func handleLogin() tea.Cmd {
 			}
 		}
 
+		switch token := data["token"].(type) {
+		case string:
+			config.Token = token
+			saveConfig()
+			return loginStatus{
+				code:    0,
+				message: fmt.Sprintf("%s", data["token"]),
+			}
+		}
+
 		return loginStatus{
-			code:    0,
-			message: fmt.Sprintf("%s", data["token"]),
+			code:    -1,
+			message: "unknown",
 		}
 	}
 }
