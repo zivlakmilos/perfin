@@ -112,7 +112,7 @@ func (a *Api) CreateFiscalReceipt(c echo.Context) error {
 		}
 	}
 
-	if !utils.ComareFloat4(receipt.TotalAmount, totalAmout) {
+	if !utils.CompareFloat4(receipt.TotalAmount, totalAmout) {
 		return a.ReturnError(c, http.StatusInternalServerError, "receipt total and item value missmatch")
 	}
 
